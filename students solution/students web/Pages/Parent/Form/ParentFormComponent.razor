@@ -1,0 +1,17 @@
+﻿<div>
+    <input class="form-control mb-2" @bind="parent.FirstName" placeholder="First Name" required/>
+    <input class="form-control mb-2" @bind="parent.LastName" placeholder="Last Name" required/>
+    <input class="form-control mb-2" @bind="parent.Email" placeholder="Email" required/>
+    <input class="form-control mb-2" @bind="parent.WorkPhone" placeholder="WorkPhone" required/>
+    <input class="form-control mb-2" @bind="parent.HomePhone" placeholder="HomePhone" required/>
+    <input class="form-control mb-2" @bind="parent.Address" placeholder="Address" required/>
+
+    <div class="d-flex justify-content-between">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public ParentDto parent { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

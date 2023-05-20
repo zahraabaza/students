@@ -1,0 +1,14 @@
+﻿.modal-container{
+    position: absolute;
+    top: 20%;
+    left: 23%;
+    max-width: 700px;
+    min-width: 700px;
+    min-height: 25vh;
+    background: #fff;
+}
+
+.modal-container.invisible{
+    offset-position: top;
+
+}

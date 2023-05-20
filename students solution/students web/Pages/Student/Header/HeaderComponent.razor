@@ -1,0 +1,16 @@
+﻿@if(ParentsList != null)
+{
+<div class="header-container">
+    
+    @*addbutton*@
+    @ChildContent
+</div>
+   
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<ParentDto> ParentsList { get; set; } = new List<ParentDto>();
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+}

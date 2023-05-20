@@ -1,0 +1,32 @@
+﻿@if(Parents != null)
+{
+    <div>
+    <input class="form-control mb-2" placeholder="First Name" @bind="student.FirstName">
+    <input class="form-control mb-2" placeholder="Last Name" @bind="student.LastName">
+    <select class="form-control" @bind="student.ParentId">
+        @if(student.Id == 0){
+            <option value="0" disabled selected>--Parents List--</option>
+        }
+        @foreach(var row in Parents)
+        {
+            <option value="@row.Id">Parent Name: @row.FirstName @row.LastName</option>
+        }
+    </select>
+    <div class="mt-5 mb-0 d-flex justify-content-between">
+        @ChildContent
+    </div>
+</div>
+    
+}
+
+@code {
+    [Parameter]
+    public StudentDto student { get; set; } = new StudentDto();
+
+    [Parameter]
+    public IEnumerable<ParentDto> Parents { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}

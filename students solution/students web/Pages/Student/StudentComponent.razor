@@ -1,0 +1,110 @@
+﻿@page "/students"
+@inherits StudentBase
+
+
+@if(Students == null){
+    @*loading-gif*@
+    <students_web.Shared.Maintenance.Loading.LoadingComponent></students_web.Shared.Maintenance.Loading.LoadingComponent>
+}else{
+    var studentsList = new List<StudentDto>();
+    studentsList = Students.OrderBy(x=> x.LastName).ToList();
+    @*Pages container *@
+    <students_web.Shared.PageContainer.PageContainerComponent Title="Students">
+
+        <students_web.Pages.Student.Header.HeaderComponent ParentsList="Parents">
+            @*Filter Section *@
+            <select class="form-control w-25 rounded-pill ps-4" @bind="parentId" @onclick="()=> GetByParentId(parentId)">
+                <option value="0" selected>No Filter</option>
+                @foreach (var row in Parents)
+                {
+                    <option value="@row.Id">@row.FirstName @row.LastName</option>
+                }
+            </select>
+
+            @*Add button*@
+            <button class="btn btn-success" @onclick="()=> {Visible = true; DeleteSection=false; student= new StudentDto();}">
+                Add Student
+                <span role="button" class="oi oi-plus"></span>
+            </button>
+        </students_web.Pages.Student.Header.HeaderComponent>
+
+
+        @*students list *@
+
+        <table class="table bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var row in studentsList)
+                {
+                    <tr>
+                        <td>@row.Id</td>
+                        <td>@row.FirstName</td>
+                        <td>@row.LastName</td>
+                        <td>@row.ParentAddress</td>
+                        <td>
+                            <span role="button" class="oi oi-pencil text-primary fs-5 me-4" @onclick="()=> {Edit(row); DeleteSection=false;}"></span>
+                            <span role="button" class="oi oi-trash text-danger fs-5" @onclick="()=> {Edit(row); DeleteSection=true;}"></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @*pagination *@
+        <div>
+            <span class="oi oi-caret-left me-5" @onclick="()=>Prev()"></span>
+            <span class="oi oi-caret-right" @onclick="()=>Next()"></span>
+        </div>
+
+        @*model*@
+        <students_web.Shared.modal.ModalComponent visible="@Visible">
+
+            @*modal  header*@
+            <div class="d-flex justify-content-end pr-2">
+                <span role="button" class="fs-3" @onclick="()=>{
+                    Visible = false;
+                    }">
+                    x
+                </span>
+            </div>
+            @if (DeleteSection)
+            {
+                <div class="text-center">
+                    <h4>
+                        Are you sure you want to delete Student @student.FirstName @student.LastName ?
+                    </h4>
+                    <div class="d-flex justify-content-between mt-5">
+                        <button class="btn btn-danger" @onclick="()=> Delete(student.Id)">Delete</button>
+
+                        <button class="btn btn-primary" @onclick="()=>{Visible = false;}">Cancel</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @*modal form content*@
+                <students_web.Pages.Student.Form.StudentFormComponent student="@student" Parents="Parents">
+                    @if (student.Id == 0)
+                    {
+                        <button class="btn btn-primary" @onclick="()=> Add(student)">Add</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary" @onclick="()=> Update(student)">Edit</button>
+                    }
+
+                    <button class="btn btn-danger" @onclick="()=>{Visible = false;}">Cancel</button>
+                </students_web.Pages.Student.Form.StudentFormComponent>
+            }
+
+        </students_web.Shared.modal.ModalComponent>
+    </students_web.Shared.PageContainer.PageContainerComponent>
+}

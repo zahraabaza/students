@@ -1,0 +1,32 @@
+[
+  {
+    "FirstName": "Ahmed",
+    "LastName": "Mohamed",
+    "ParentId": 1
+  },
+  {
+    "FirstName": "Ahmed",
+    "LastName": "Sameh",
+    "ParentId": 2
+  },
+  {
+    "FirstName": "Mahmoud",
+    "LastName": "Kamal",
+    "ParentId": 3
+  },
+  {
+    "FirstName": "Eslam",
+    "LastName": "Asem",
+    "ParentId": 4
+  },
+  {
+    "FirstName": "Mona",
+    "LastName": "Mohamed",
+    "ParentId": 1
+  },
+  {
+    "FirstName": "Ahmed",
+    "LastName": "Asem",
+    "ParentId": 4
+  }
+]

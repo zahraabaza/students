@@ -1,0 +1,9 @@
+﻿.card{
+    border-radius: 1.25rem;
+}
+
+.card-title h3 {
+    position: absolute;
+    top: -15%;
+    z-index: 9;
+}

@@ -1,0 +1,9 @@
+﻿@page "/modal"
+
+@inherits BaseModal
+
+<div class="modal-container shadow-lg rounded-3 @(visible? "visible": "invisible")">
+    <div class="modal-content p-4 border-0">
+        @ChildContent
+    </div>
+</div>

@@ -1,0 +1,116 @@
+﻿@page "/"
+@inherits ParentBase
+
+
+@if (Parents == null)
+{
+    @*loading-gif*@
+    <students_web.Shared.Maintenance.Loading.LoadingComponent></students_web.Shared.Maintenance.Loading.LoadingComponent>
+}
+else
+{
+    var parentsList = new List<ParentDto>();
+    parentsList = Parents.ToList();
+
+    @*Page container *@
+    <students_web.Shared.PageContainer.PageContainerComponent Title="Parents">
+
+
+        @*header*@
+        <students_web.Pages.Student.Header.HeaderComponent>
+            <input class="form-control rounded-pill w-25" placeholder="search..." @bind="keyword">
+            <span class="oi oi-magnifying-glass" @onclick="()=> Search()"></span>
+
+
+            <button class="btn btn-success" @onclick="()=> {Visible = true; DeleteSection=false;}">
+                Add Parent
+                <span role="button" class="oi oi-plus"></span>
+            </button>
+        </students_web.Pages.Student.Header.HeaderComponent>
+
+
+        @*Parent list *@
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Work Phone</th>
+                    <th>Home Phone</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in parentsList)
+                {
+                    <tr>
+                        <td>@row.Id</td>
+                        <td>@row.FirstName</td>
+                        <td>@row.LastName</td>
+                        <td>@row.Email</td>
+                        <td>@row.WorkPhone</td>
+                        <td>@row.HomePhone</td>
+                        <td>@row.Address</td>
+                        <td>
+                            <span role="button" class="oi oi-pencil text-primary fs-5 me-4" @onclick="()=> {DeleteSection=false; Edit(row);}"></span>
+                            <span role="button" class="oi oi-trash text-danger fs-5" @onclick="()=>{DeleteSection=true; Edit(row);}"></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @*pagination *@
+        <div>
+            <span class="oi oi-caret-left me-5" @onclick="()=>Prev()"></span>
+            <span class="oi oi-caret-right" @onclick="()=>Next()"></span>
+        </div>
+
+        @*modal*@
+        <students_web.Shared.modal.ModalComponent visible="@Visible">
+            @*modal header *@
+            <div>
+                <div class="d-flex justify-content-end pr-2">
+                    <span role="button" class="fs-3" @onclick="()=>{
+                    Visible = false;
+                    Parent = new ParentDto();}">
+                        x
+                    </span>
+                </div>
+            </div>
+            @if (DeleteSection)
+            {
+                <div class="text-center">
+                    <h4>
+                        Are you sure you want to delete Mr @Parent.FirstName @Parent.LastName ?
+                    </h4>
+                    <div class="d-flex justify-content-between mt-5">
+                        <button class="btn btn-danger" @onclick="()=> Delete(Parent.Id)">Delete</button>
+
+                        <button class="btn btn-primary" @onclick="()=>{Visible = false;}">Cancel</button>
+                    </div>
+                </div>
+            }
+            else
+            { 
+                <students_web.Pages.Parent.Form.ParentFormComponent parent="@Parent">
+                    @*form footer *@
+                    @if (Parent.Id == 0)
+                    {
+                        <button class="btn btn-primary" @onclick="()=> Add(Parent)">Add</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary" @onclick="()=> Update(Parent)">Edit</button>
+                    }
+
+                    <button class="btn btn-danger" @onclick="()=>{Visible = false;}">Cancel</button>
+                </students_web.Pages.Parent.Form.ParentFormComponent>
+            }
+        </students_web.Shared.modal.ModalComponent>
+    </students_web.Shared.PageContainer.PageContainerComponent>
+}
